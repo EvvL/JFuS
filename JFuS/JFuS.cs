@@ -42,6 +42,8 @@ namespace JFuS
             {
                 dirWatcher.Path = directory.Text;
 
+                results.Items.Clear();
+
                 Properties.Settings.Default.lastDirectory = directory.Text;
                 Properties.Settings.Default.Save();
             }
@@ -243,5 +245,11 @@ namespace JFuS
         }
 
         #endregion
+
+        private void directory_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                searchText.Focus();
+        }
     }
 }

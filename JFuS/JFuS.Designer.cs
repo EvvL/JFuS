@@ -105,6 +105,7 @@
             this.directory.Size = new System.Drawing.Size(669, 21);
             this.directory.TabIndex = 1;
             this.directory.TextChanged += new System.EventHandler(this.directory_TextChanged);
+            this.directory.KeyDown += new System.Windows.Forms.KeyEventHandler(this.directory_KeyDown);
             // 
             // directoryLabel
             // 
