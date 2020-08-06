@@ -66,6 +66,8 @@ namespace JFuS
 
         private void Search()
         {
+            Cursor = Cursors.WaitCursor;
+
             results.BeginUpdate();
             results.Items.Clear();
 
@@ -81,12 +83,15 @@ namespace JFuS
             {
                 regex = new Regex(searchText.Text, RXOptions);
 
-                var total = 0;
-                var found = 0;
-                foreach (var file in Directory.GetFiles(directory.Text))
-                {
-                    total++;
+                var files = Directory.GetFiles(directory.Text, "*",
+                    (searchSubDirectories)? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly
+                    );
 
+                var total = files.Count();
+
+                var found = 0;
+                foreach (var file in files)
+                {
                     var fileInfo = new FileInfo(file);
 
                     var result = regex.Match(fileInfo.Name);
@@ -125,6 +130,7 @@ namespace JFuS
             }
 
             results.EndUpdate();
+            Cursor = Cursors.Default;
         }
 
         private void searchLabel_DoubleClick(object sender, EventArgs e)
@@ -233,7 +239,7 @@ namespace JFuS
 
         private void results_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedStatus.Text = $"{results.SelectedItems.Count} selected";
+            selectedStatus.Text = $"{results.SelectedItems.Count} Selected";
         }
 
         #endregion

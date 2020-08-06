@@ -102,7 +102,6 @@
             this.searchSubDirectories.TabIndex = 1;
             this.searchSubDirectories.Text = "Search Sub Directories";
             this.searchSubDirectories.UseVisualStyleBackColor = true;
-            this.searchSubDirectories.Visible = false;
             // 
             // Settings
             // 
