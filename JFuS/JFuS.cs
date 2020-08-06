@@ -6,11 +6,16 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace JFuS
 {
     public partial class JFuS : Form
     {
+        [DllImport("Shlwapi.dll", CharSet = CharSet.Auto)]
+        public static extern long StrFormatByteSize( long fileSize, [MarshalAs(UnmanagedType.LPTStr)] StringBuilder buffer, int bufferSize);
+
         AutoCompleteStringCollection searchHistory;
 
         public JFuS()
@@ -29,6 +34,13 @@ namespace JFuS
 
             if (searchHistory.Count != 0 )
                 searchText.Text = searchHistory[searchHistory.Count - 1];
+        }
+
+        public static string StrFormatByteSize(long filesize)
+        {
+            var sb = new StringBuilder(11);
+            StrFormatByteSize(filesize, sb, sb.Capacity);
+            return sb.ToString();
         }
 
         #region Directory functions
@@ -94,11 +106,9 @@ namespace JFuS
             if (ignoreCase)
                 RXOptions |= RegexOptions.IgnoreCase;
 
-            Regex regex;
-
             try
             {
-                regex = new Regex(searchText.Text, RXOptions);
+                var regex = new Regex(searchText.Text, RXOptions);
 
                 var files = Directory.GetFiles(directory.Text, "*",
                     (searchSubDirectories)? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly
@@ -106,7 +116,6 @@ namespace JFuS
 
                 var total = files.Count();
 
-                var found = 0;
                 foreach (var file in files)
                 {
                     var fileInfo = new FileInfo(file);
@@ -120,21 +129,23 @@ namespace JFuS
 
                         if (!icons.Images.ContainsKey(fileInfo.Extension))
                         {
-                            iconForFile = System.Drawing.Icon.ExtractAssociatedIcon(fileInfo.FullName);
+                            iconForFile = Icon.ExtractAssociatedIcon(fileInfo.FullName);
                             icons.Images.Add(fileInfo.Extension, iconForFile);
                         }
 
                         item.ImageKey = fileInfo.Extension;
                         item.Tag = fileInfo.FullName;
 
-                        results.Items.Add(item);
+                        var size = StrFormatByteSize( fileInfo.Length );
+                        var path = Path.GetDirectoryName(fileInfo.FullName);
+                        item.ToolTipText = $"{path}\n{size}";
 
-                        found++;
+                        results.Items.Add(item);
                     }
                 }
 
                 totalStatus.Text = $"{total} Searched";
-                foundStatus.Text = $"{found} Found";
+                foundStatus.Text = $"{results.Items.Count} Found";
 
                 dirWatcher.EnableRaisingEvents = true;
             }

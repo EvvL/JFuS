@@ -46,7 +46,7 @@
             this.icons = new System.Windows.Forms.ImageList(this.components);
             this.dirWatcher = new System.IO.FileSystemWatcher();
             this.regexToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.totalStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.foundStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.selectedStatus = new System.Windows.Forms.ToolStripStatusLabel();
@@ -56,7 +56,7 @@
             this.locationPanel.SuspendLayout();
             this.searchPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dirWatcher)).BeginInit();
-            this.statusStrip1.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileContextMenu
@@ -187,6 +187,7 @@
             this.results.LargeImageList = this.icons;
             this.results.Location = new System.Drawing.Point(0, 56);
             this.results.Name = "results";
+            this.results.ShowItemToolTips = true;
             this.results.Size = new System.Drawing.Size(784, 383);
             this.results.SmallImageList = this.icons;
             this.results.TabIndex = 3;
@@ -218,17 +219,17 @@
             this.dirWatcher.Created += new System.IO.FileSystemEventHandler(this.dirWatcher_Changed);
             this.dirWatcher.Deleted += new System.IO.FileSystemEventHandler(this.dirWatcher_Changed);
             // 
-            // statusStrip1
+            // statusStrip
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.totalStatus,
             this.foundStatus,
             this.selectedStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 439);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(784, 22);
-            this.statusStrip1.TabIndex = 6;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip.Location = new System.Drawing.Point(0, 439);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(784, 22);
+            this.statusStrip.TabIndex = 6;
+            this.statusStrip.Text = "statusStrip1";
             // 
             // totalStatus
             // 
@@ -266,7 +267,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.results);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.searchPanel);
             this.Controls.Add(this.locationPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -277,8 +278,8 @@
             this.locationPanel.ResumeLayout(false);
             this.searchPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dirWatcher)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -301,7 +302,7 @@
         private System.Windows.Forms.ColumnHeader nameHeader;
         private System.IO.FileSystemWatcher dirWatcher;
         private System.Windows.Forms.ToolTip regexToolTip;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel totalStatus;
         private System.Windows.Forms.ToolStripStatusLabel foundStatus;
         private System.Windows.Forms.ToolStripStatusLabel selectedStatus;
