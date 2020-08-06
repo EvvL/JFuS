@@ -16,4 +16,5 @@ For a full refernce of C# regular expression that can be used see microsoft's [R
 ## Copyright and Licensing
 
 Copyright © 2020 Eric Olinger
+
 This project is licensed under the [GNU General Public License v2.0](https://github.com/EvvL/JFuS/blob/master/LICENSE.MD)
