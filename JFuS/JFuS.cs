@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
@@ -19,7 +15,6 @@ namespace JFuS
         {
             InitializeComponent();
             Size = Properties.Settings.Default.windowSize;
-
 
             LoadSettings();
 
@@ -41,8 +36,7 @@ namespace JFuS
 
             directory.BackColor = (validDir) ? SystemColors.Window : Color.Pink;
 
-            searchText.Enabled = validDir;
-            searchLabel.Enabled = validDir;
+            searchText.Enabled = searchLabel.Enabled = validDir;
 
             if ( validDir )
             {
@@ -156,9 +150,7 @@ namespace JFuS
             var settingsDialog = new Settings();
 
             if (settingsDialog.ShowDialog() == DialogResult.OK)
-            {
                 LoadSettings();
-            }
         }
 
         private void JFuS_SizeChanged(object sender, EventArgs e)
@@ -171,93 +163,79 @@ namespace JFuS
 
         #region Result Functions
 
-        private bool Resizing = false;
+        private bool resizing = false;
         private void results_Resize(object sender, EventArgs e)
         {
-            if (!Resizing)
+            if (!resizing)
             {
-                Resizing = true;
-
-                if (sender is ListView listView)
-                {
-                    float totalColumnWidth = 0;
-
-                    for (var i = 0; i < listView.Columns.Count; i++)
-                        totalColumnWidth += Convert.ToInt32(listView.Columns[i].Tag);
-
-                    for (var i = 0; i < listView.Columns.Count; i++)
-                    {
-                        var colPercentage = (Convert.ToInt32(listView.Columns[i].Tag) / totalColumnWidth);
-                        listView.Columns[i].Width = (int)(colPercentage * listView.ClientRectangle.Width);
-                    }
-                }
+                resizing = true;
+                results.Columns[0].Width = results.ClientRectangle.Width;
             }
 
-            Resizing = false;
+            resizing = false;
         }
 
         private void results_DoubleClick(object sender, EventArgs e)
         {
             if ( results.SelectedItems.Count != 0 )
             {
-                var item = results.SelectedItems[0];
-                var filePath = item.Tag as String;
+                var filePath = results.SelectedItems[0].Tag as String;
                 Process.Start(filePath);
             }
         }
 
         private void results_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            if (results.SelectedItems.Count != 0)
-            {
-                var files = results.SelectedItems.Cast<ListViewItem>().Select(i => i.Tag as String).ToArray();
+            if (results.SelectedItems.Count == 0)
+                return;
 
-                DoDragDrop(new DataObject(DataFormats.FileDrop, files), DragDropEffects.Copy | DragDropEffects.Move);
-            }
+            var files = results.SelectedItems.Cast<ListViewItem>().Select(i => i.Tag as String).ToArray();
+
+            DoDragDrop(new DataObject(DataFormats.FileDrop, files), DragDropEffects.Copy | DragDropEffects.Move);
         }
 
         private void copyMenuItem_Click(object sender, EventArgs e)
         {
-            if (results.SelectedItems.Count != 0)
-            {
-                results.BeginUpdate();
+            if (results.SelectedItems.Count == 0)
+                return;
 
-                foreach (var item in results.Items.Cast<ListViewItem>())
-                    item.ForeColor = SystemColors.ControlText;
+            results.BeginUpdate();
 
-                results.EndUpdate();
+            foreach (var item in results.Items.Cast<ListViewItem>())
+                item.ForeColor = SystemColors.ControlText;
 
-                var files = results.SelectedItems.Cast<ListViewItem>().Select(i => i.Tag as String).ToArray();
-                Clipboard.SetDataObject(new DataObject(DataFormats.FileDrop, files));
-            }
+            results.EndUpdate();
+
+            var files = results.SelectedItems.Cast<ListViewItem>().Select(i => i.Tag as String).ToArray();
+            Clipboard.SetDataObject(new DataObject(DataFormats.FileDrop, files));
         }
 
         private void cutMenuItem_Click(object sender, EventArgs e)
         {
-            if (results.SelectedItems.Count != 0)
-            {
-                results.BeginUpdate();
+            if (results.SelectedItems.Count == 0)
+                return;
 
-                foreach (var item in results.Items.Cast<ListViewItem>())
-                    item.ForeColor = (item.Selected) ? SystemColors.GrayText : SystemColors.ControlText;
+            results.BeginUpdate();
 
-                results.EndUpdate();
+            foreach (var item in results.Items.Cast<ListViewItem>())
+                item.ForeColor = (item.Selected) ? SystemColors.GrayText : SystemColors.ControlText;
 
-                var files = results.SelectedItems.Cast<ListViewItem>().Select(i => i.Tag as String).ToArray();
+            results.EndUpdate();
 
-                var data = new DataObject();
-                data.SetData("FileDrop", files);
-                data.SetData("Preferred DropEffect", DragDropEffects.Move);
+            var files = results.SelectedItems.Cast<ListViewItem>().Select(i => i.Tag as String).ToArray();
 
-                Clipboard.SetDataObject(data, true);
-            }
+            var data = new DataObject();
+            data.SetData("FileDrop", files);
+            data.SetData("Preferred DropEffect", DragDropEffects.Move);
+
+            Clipboard.SetDataObject(data, true);
         }
-
-        #endregion
 
         private void results_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedStatus.Text = $"{results.SelectedItems.Count} selected";
         }
+
+        #endregion
     }
 }
