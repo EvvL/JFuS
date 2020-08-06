@@ -11,15 +11,24 @@ namespace JFuS
 {
     public partial class JFuS : Form
     {
+        AutoCompleteStringCollection searchHistory;
+
         public JFuS()
         {
             InitializeComponent();
+
             Size = Properties.Settings.Default.windowSize;
 
             LoadSettings();
 
             directory.Text = Properties.Settings.Default.lastDirectory;
             directory_TextChanged(null, null);
+
+            searchHistory = Properties.Settings.Default.searchHistory ?? new AutoCompleteStringCollection();
+            searchText.AutoCompleteCustomSource = searchHistory;
+
+            if (searchHistory.Count != 0 )
+                searchText.Text = searchHistory[searchHistory.Count - 1];
         }
 
         #region Directory functions
@@ -47,6 +56,12 @@ namespace JFuS
                 Properties.Settings.Default.lastDirectory = directory.Text;
                 Properties.Settings.Default.Save();
             }
+        }
+
+        private void directory_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                searchText.Focus();
         }
 
         #endregion
@@ -130,6 +145,11 @@ namespace JFuS
                 results.BackColor = Color.Pink;
                 results.Items.Add("Invalid Regex");
             }
+
+            searchHistory.Add(searchText.Text);
+
+            Properties.Settings.Default.searchHistory = searchHistory;
+            Properties.Settings.Default.Save();
 
             results.EndUpdate();
             Cursor = Cursors.Default;
@@ -245,11 +265,5 @@ namespace JFuS
         }
 
         #endregion
-
-        private void directory_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-                searchText.Focus();
-        }
     }
 }

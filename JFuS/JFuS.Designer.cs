@@ -38,7 +38,6 @@
             this.directoryLabel = new System.Windows.Forms.Label();
             this.selectDirectory = new System.Windows.Forms.Button();
             this.searchPanel = new System.Windows.Forms.Panel();
-            this.searchText = new System.Windows.Forms.TextBox();
             this.settings = new System.Windows.Forms.Button();
             this.searchLabel = new System.Windows.Forms.Label();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
@@ -51,6 +50,8 @@
             this.totalStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.foundStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.selectedStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.searchText = new System.Windows.Forms.ComboBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.fileContextMenu.SuspendLayout();
             this.locationPanel.SuspendLayout();
             this.searchPanel.SuspendLayout();
@@ -142,16 +143,6 @@
             this.searchPanel.Size = new System.Drawing.Size(784, 28);
             this.searchPanel.TabIndex = 5;
             // 
-            // searchText
-            // 
-            this.searchText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.searchText.Enabled = false;
-            this.searchText.Location = new System.Drawing.Point(82, 4);
-            this.searchText.Name = "searchText";
-            this.searchText.Size = new System.Drawing.Size(669, 20);
-            this.searchText.TabIndex = 2;
-            this.searchText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.searchText_KeyDown);
-            // 
             // settings
             // 
             this.settings.Dock = System.Windows.Forms.DockStyle.Right;
@@ -208,7 +199,7 @@
             // 
             // nameHeader
             // 
-            this.nameHeader.Tag = "1";
+            this.nameHeader.Tag = "";
             this.nameHeader.Text = "Name";
             this.nameHeader.Width = 719;
             // 
@@ -257,6 +248,18 @@
             this.selectedStatus.Size = new System.Drawing.Size(19, 17);
             this.selectedStatus.Text = "    ";
             // 
+            // searchText
+            // 
+            this.searchText.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.searchText.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.searchText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.searchText.FormattingEnabled = true;
+            this.searchText.Location = new System.Drawing.Point(82, 4);
+            this.searchText.Name = "searchText";
+            this.searchText.Size = new System.Drawing.Size(669, 21);
+            this.searchText.TabIndex = 7;
+            this.searchText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.searchText_KeyDown);
+            // 
             // JFuS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -273,7 +276,6 @@
             this.fileContextMenu.ResumeLayout(false);
             this.locationPanel.ResumeLayout(false);
             this.searchPanel.ResumeLayout(false);
-            this.searchPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dirWatcher)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -288,7 +290,6 @@
         private System.Windows.Forms.Label directoryLabel;
         private System.Windows.Forms.Button selectDirectory;
         private System.Windows.Forms.Panel searchPanel;
-        private System.Windows.Forms.TextBox searchText;
         private System.Windows.Forms.Button settings;
         private System.Windows.Forms.Label searchLabel;
         private System.Windows.Forms.ComboBox directory;
@@ -304,6 +305,8 @@
         private System.Windows.Forms.ToolStripStatusLabel totalStatus;
         private System.Windows.Forms.ToolStripStatusLabel foundStatus;
         private System.Windows.Forms.ToolStripStatusLabel selectedStatus;
+        private System.Windows.Forms.ComboBox searchText;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

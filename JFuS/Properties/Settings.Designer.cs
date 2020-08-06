@@ -94,5 +94,16 @@ namespace JFuS.Properties {
                 this["searchSubDirectories"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Windows.Forms.AutoCompleteStringCollection searchHistory {
+            get {
+                return ((global::System.Windows.Forms.AutoCompleteStringCollection)(this["searchHistory"]));
+            }
+            set {
+                this["searchHistory"] = value;
+            }
+        }
     }
 }
