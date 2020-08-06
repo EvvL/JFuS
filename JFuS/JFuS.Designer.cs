@@ -52,6 +52,8 @@
             this.selectedStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.searchText = new System.Windows.Forms.ComboBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.openFileLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileContextMenu.SuspendLayout();
             this.locationPanel.SuspendLayout();
             this.searchPanel.SuspendLayout();
@@ -63,9 +65,11 @@
             // 
             this.fileContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyMenuItem,
-            this.cutMenuItem});
+            this.cutMenuItem,
+            this.toolStripMenuItem1,
+            this.openFileLocationToolStripMenuItem});
             this.fileContextMenu.Name = "fileContextMenu";
-            this.fileContextMenu.Size = new System.Drawing.Size(145, 48);
+            this.fileContextMenu.Size = new System.Drawing.Size(181, 98);
             // 
             // copyMenuItem
             // 
@@ -261,6 +265,18 @@
             this.searchText.TabIndex = 7;
             this.searchText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.searchText_KeyDown);
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(213, 6);
+            // 
+            // openFileLocationToolStripMenuItem
+            // 
+            this.openFileLocationToolStripMenuItem.Name = "openFileLocationToolStripMenuItem";
+            this.openFileLocationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openFileLocationToolStripMenuItem.Text = "Open File Location";
+            this.openFileLocationToolStripMenuItem.Click += new System.EventHandler(this.openFileLocationToolStripMenuItem_Click);
+            // 
             // JFuS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -308,6 +324,8 @@
         private System.Windows.Forms.ToolStripStatusLabel selectedStatus;
         private System.Windows.Forms.ComboBox searchText;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem openFileLocationToolStripMenuItem;
     }
 }
 

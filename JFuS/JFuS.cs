@@ -275,6 +275,15 @@ namespace JFuS
             selectedStatus.Text = $"{results.SelectedItems.Count} Selected";
         }
 
+        private void openFileLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (results.SelectedItems.Count != 0)
+            {
+                var filePath = Path.GetDirectoryName(results.SelectedItems[0].Tag as String);
+                Process.Start(filePath);
+            }
+        }
+
         #endregion
     }
 }
